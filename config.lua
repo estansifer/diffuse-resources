@@ -2,7 +2,7 @@ config = {
     --[[
         Hard mode! No filter or stack filter inserters are permitted.
     ]]
-    no_filter_inserters = true,
+    no_filter_inserters = false,
 
     resources = {
         stone =
