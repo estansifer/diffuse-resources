@@ -7,6 +7,9 @@
 -- behave independently.
 --
 -- Works across saving/loading.
+--
+-- For some crazy reason 'global' is defined but invalid before on_load / on_init
+-- is called, so don't call this from top-level.
 function RandXY(name)
     if global.randxy == nil then
         global.randxy = {}
@@ -18,10 +21,6 @@ function RandXY(name)
     local ys = global.randxy[name][2]
 
     local function random(x, y)
-        return math.random()
-        -- The above code is a quick fix because the following code was causing
-        -- desyncs in multiplayer... but I have no idea why.
-        --[[
         if xs[x] == nil then
             xs[x] = math.random()
         end
@@ -29,7 +28,6 @@ function RandXY(name)
             ys[y] = math.random()
         end
         return (xs[x] + ys[y]) % 1
-        ]]
     end
     return random
 end

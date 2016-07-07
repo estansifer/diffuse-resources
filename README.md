@@ -25,11 +25,10 @@ Every single square of land has either iron, copper, coal, or stone. The typical
 [screenshots](https://imgur.com/a/ogh97)
 
 ## Versions
+ * 0.0.3 Possibly fixed desyncs and improved performance
  * 0.0.2 Initial release
 
 ## Known Issues
-
- * The mod can sometimes experience two desyncs (several minutes apart) after researching the "More ---!" technologies. I have no idea what might be causing these desyncs, but it does not interfere with play much.
 
 ## License
 

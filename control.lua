@@ -3,20 +3,16 @@ require "lib/randxy"
 
 local append = table.insert
 
-local msg = 0
-function db(s)
-    local p = game.players[1]
-    if p ~= nil then
-        p.print('[' .. msg .. ']    ' .. s)
-        msg = msg + 1
+local function db(s)
+    for _, p in ipairs(game.players) do
+        p.print(s)
     end
 end
 
 -- Functions that, given a position (x, y), return a random number from [0, 1)
 -- Given the same input, always returns the same output
 -- Defined in on_load
-local random_amount = RandXY("amount")
-local random_type = RandXY("type")
+local random_amount, random_type
 
 local cauchy_min = 0.5 - math.atan(2) / math.pi -- about 0.14758
 
@@ -216,6 +212,8 @@ end
 local function on_load(event)
     local c = global.saved_config
     if c ~= nil then
+        random_amount = RandXY("amount")
+        random_type = RandXY("type")
         update_tf()
         script.on_event(defines.events.on_chunk_generated, make_chunk)
         script.on_event(defines.events.on_tick, on_tick)
