@@ -12,7 +12,7 @@ Every single square of land has either iron, copper, coal, or stone. The typical
 
  * You can control the starting densities of resources in the configuration file. This has no effect on a game that has already been started.
 
- * As your factory grows, you will find yourself needing more or less of various resources. To make balancing easier, I have added a tech tree associated with resource generation. Researching the "More Coal!" technology, for example, makes coal patches 20% more frequent (and the other patches therefore less frequent).
+ * As your factory grows, you will find yourself needing more or less of various resources. To make balancing easier, I have added a tech tree associated with resource generation. Researching the "More Coal!" technology, for example, makes coal patches 20% more frequent (and the other patches therefore less frequent). This causes existing patches to be changed.
 
  There is one technology for increasing each of the four resources. If you research all four they will exactly cancel out. You can research the same technology more than once (with no limit to the number of times), but to do so you have to research certain other, fairly expensive technologies to unlock them a second, etc., time.
 
@@ -25,10 +25,14 @@ Every single square of land has either iron, copper, coal, or stone. The typical
 [screenshots](https://imgur.com/a/ogh97)
 
 ## Versions
- * 0.0.3 Possibly fixed desyncs and improved performance
+ * 0.0.5 Updated for Factorio 0.14.
+ * 0.0.4 Added code for migrating from 0.0.2.
+ * 0.0.3 Possibly fixed desyncs and improved performance.
  * 0.0.2 Initial release
 
 ## Known Issues
+ * Does not play well with mods that add other ores. I have no plans to add support because,
+ for example, I would need to make new graphics for such ores.
 
 ## License
 

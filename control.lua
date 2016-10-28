@@ -4,8 +4,22 @@ require "lib/randxy"
 local append = table.insert
 
 local function db(s)
+    print ("[Debug] " .. s)
     for _, p in ipairs(game.players) do
         p.print(s)
+    end
+end
+
+-- Does not handle recursive tables
+local function deepcopy(x)
+    if type(x) == 'table' then
+        y = {}
+        for key, value in pairs(x) do
+            y[deepcopy(key)] = deepcopy(value)
+        end
+        return y
+    else
+        return x
     end
 end
 
@@ -196,13 +210,10 @@ end
 local function check_for_filters(event)
     local e = event.created_entity
     if e.name == "filter-inserter" or e.name == "stack-filter-inserter" then
-        local surface = e.surface
-        local p = e.position
-
         e.health = 1
-        surface.create_entity{
+        e.surface.create_entity{
                 name = 'cluster-grenade',
-                position = p,
+                position = e.position,
                 target = e,
                 speed = 0
             }
@@ -218,22 +229,29 @@ local function on_load(event)
         script.on_event(defines.events.on_chunk_generated, make_chunk)
         script.on_event(defines.events.on_tick, on_tick)
         script.on_event(defines.events.on_research_finished, update_research)
-    end
-    -- We don't use global.saved_config here so that user can enable / disable this
-    -- in the middle of a save
-    if config.no_filter_inserters then
-        script.on_event(defines.events.on_built_entity, check_for_filters)
-        script.on_event(defines.events.on_robot_built_entity, check_for_filters)
+        if c.no_filter_inserters then
+            script.on_event(defines.events.on_built_entity, check_for_filters)
+            script.on_event(defines.events.on_robot_built_entity, check_for_filters)
+        end
     end
 end
 
 local function on_init(event)
     global.saved_config = config
+    global.resources = deepcopy(config.resources)
     global.all_regions = {}
     global.pending_rolls = {}
     global.pending_rerolls = {}
     on_load(nil)
 end
 
+local function migrate(event)
+    -- In case of migration from 0.0.3 or earlier
+    if global.resources == nil then
+        global.resources = deepcopy(global.saved_config.resources)
+    end
+end
+
 script.on_init(on_init)
 script.on_load(on_load)
+script.on_configuration_changed(migrate)
